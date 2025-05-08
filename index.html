@@ -3,56 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Przyjemne Gierki - Strefa (Już Działającej!) Rozrywki</title>
+    <title>Przyjemne Gierki 2.0 - Jeszcze Więcej Prokrastynacji!</title>
     <style>
+        /* --- ZMIENNE CSS (Dla motywów) --- */
+        :root {
+            --bg-color: #f0f8ff; /* AliceBlue */
+            --bg-color-alt: #ffffff;
+            --text-color: #333333;
+            --header-bg: #4a90e2;
+            --header-text: #ffffff;
+            --game-section-bg: #f9f9f9;
+            --game-section-border: #dddddd;
+            --button-bg: #5cb85c;
+            --button-text: #ffffff;
+            --button-hover-bg: #4cae4c;
+            --button-restart-bg: #f0ad4e;
+            --button-restart-hover-bg: #ec971f;
+            --input-bg: #ffffff;
+            --input-border: #cccccc;
+            --link-color: #3a7bd5;
+            --placeholder-text: #888888;
+            --card-bg: #e0e0e0;
+            --card-flipped-bg: #ffffff;
+            --shadow-color: rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode {
+            --bg-color: #1e1e1e; /* Ciemnoszary */
+            --bg-color-alt: #2a2a2a;
+            --text-color: #e0e0e0;
+            --header-bg: #333333;
+            --header-text: #f0f8ff;
+            --game-section-bg: #2c2c2c;
+            --game-section-border: #444444;
+            --button-bg: #007bff; /* Niebieski w ciemnym motywie */
+            --button-hover-bg: #0056b3;
+            --button-restart-bg: #ffc107; /* Żółty w ciemnym motywie */
+            --button-restart-hover-bg: #d39e00;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --link-color: #64b5f6; /* Jaśniejszy niebieski dla linków */
+            --placeholder-text: #aaaaaa;
+            --card-bg: #424242;
+            --card-flipped-bg: #535353;
+            --shadow-color: rgba(255,255,255,0.05);
+        }
+
+        /* --- PODSTAWOWE STYLE --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f8ff;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
         }
         header {
-            background-color: #4a90e2;
-            color: white;
-            padding: 20px 0;
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 15px 0;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px var(--shadow-color);
+            position: relative; /* Dla theme-switchera */
         }
-        header h1 { margin: 0; font-size: 2.5em; }
-        header p { margin-top: 5px; font-size: 1.1em; font-style: italic; }
+        header h1 { margin: 0; font-size: 2.2em; }
+        header p { margin: 5px 0 0; font-size: 1em; font-style: italic; }
+
+        .theme-switcher {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            padding: 8px 12px;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .theme-switcher:hover { background-color: var(--button-hover-bg); }
+
         .container {
             width: 90%;
             max-width: 1000px;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            padding: 15px;
+            background-color: var(--bg-color-alt);
+            box-shadow: 0 0 15px var(--shadow-color);
             border-radius: 8px;
             flex-grow: 1;
         }
         .game-section {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             padding: 20px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--game-section-border);
             border-radius: 8px;
-            background-color: #f9f9f9;
+            background-color: var(--game-section-bg);
+            transition: background-color 0.3s, border-color 0.3s;
         }
         .game-section h2 {
-            color: #3a7bd5;
+            color: var(--link-color);
             margin-top: 0;
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid var(--game-section-border);
             padding-bottom: 10px;
         }
         .game-section button {
-            background-color: #5cb85c;
-            color: white;
+            background-color: var(--button-bg);
+            color: var(--button-text);
             border: none;
-            padding: 10px 20px;
+            padding: 10px 15px;
             font-size: 1em;
             border-radius: 5px;
             cursor: pointer;
@@ -60,58 +123,120 @@
             margin-top: 10px;
             margin-right: 5px;
         }
-        .game-section button:hover { background-color: #4cae4c; }
-        .game-section button.restart-btn { background-color: #f0ad4e; } /* Pomarańczowy dla restartu */
-        .game-section button.restart-btn:hover { background-color: #ec971f; }
+        .game-section button:hover { background-color: var(--button-hover-bg); }
+        .game-section button.restart-btn { background-color: var(--button-restart-bg); }
+        .game-section button.restart-btn:hover { background-color: var(--button-restart-hover-bg); }
+        .game-section button:disabled { background-color: #ccc; cursor: not-allowed; }
+        
         .game-section input[type="number"], .game-section input[type="text"] {
             padding: 8px;
             margin-right: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid var(--input-border);
             border-radius: 4px;
             font-size: 1em;
+            background-color: var(--input-bg);
+            color: var(--text-color);
         }
         .status-message { margin-top:15px; font-weight: bold; min-height: 20px; }
 
-        /* Kółko i Krzyżyk */
+        /* --- KÓŁKO I KRZYŻYK --- */
         .tic-tac-toe-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-gap: 10px;
-            width: 210px; /* 3 * 60px komórka + 2 * 15px przerwa */
+            width: clamp(150px, 50%, 210px); /* Responsive width */
             margin: 20px auto;
         }
         .tic-tac-toe-cell {
-            width: 60px;
-            height: 60px;
-            background-color: #fff;
-            border: 2px solid #ccc;
+            aspect-ratio: 1 / 1; /* Utrzymuje kwadratowy kształt */
+            background-color: var(--input-bg);
+            border: 2px solid var(--input-border);
             border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5em;
+            font-size: clamp(1.5em, 5vw, 2.5em); /* Responsive font size */
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.2s;
         }
-        .tic-tac-toe-cell:hover { background-color: #e9e9e9; }
-        .tic-tac-toe-cell.X { color: #d9534f; } /* Czerwony dla X */
-        .tic-tac-toe-cell.O { color: #428bca; } /* Niebieski dla O */
+        .tic-tac-toe-cell:hover { background-color: var(--bg-color); }
+        .tic-tac-toe-cell.X { color: #d9534f; }
+        .tic-tac-toe-cell.O { color: #428bca; }
 
-        /* Klikacz */
-        #clickerButton {
-            padding: 20px 40px;
-            font-size: 1.5em;
-            width: 200px;
-            height: 100px;
-        }
+        /* --- KLIKACZ --- */
+        #clickerButton { padding: 20px 30px; font-size: 1.2em; }
         #clickerGameArea p { margin: 5px 0; }
+
+        /* --- GRA PAMIĘCIOWA (Memory Game) --- */
+        .memory-game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 kolumny */
+            grid-gap: 10px;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        .memory-card {
+            aspect-ratio: 1 / 1;
+            background-color: var(--card-bg);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.5em, 5vw, 2em);
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            transform-style: preserve-3d; /* Dla efektu odwracania */
+        }
+        .memory-card.flipped, .memory-card.matched {
+            background-color: var(--card-flipped-bg);
+            transform: rotateY(180deg); /* Efekt odwracania */
+            cursor: default;
+        }
+        .memory-card .card-face { /* Treść karty */
+            position: absolute;
+            backface-visibility: hidden; /* Ukrywa tył, gdy przód jest widoczny */
+        }
+        .memory-card .card-back { /* Tył karty, widoczny po obróceniu */
+            transform: rotateY(180deg);
+        }
+        
+        /* --- KAMIEŃ, PAPIER, NOŻYCE --- */
+        .rps-choices button {
+            font-size: 1.5em; /* Większe emoji */
+            padding: 10px;
+            margin: 5px;
+        }
+        .rps-result p { font-size: 1.1em; }
+
+        /* --- WISIELEC (Hangman) --- */
+        #hangmanWord {
+            font-size: 2em;
+            letter-spacing: 0.5em;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .hangman-letters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        .hangman-letters button {
+            font-size: 1em;
+            width: 35px;
+            height: 35px;
+            padding: 0;
+        }
+        #hangmanStatus { margin-bottom: 10px; }
+
 
         footer {
             text-align: center;
             padding: 20px;
-            background-color: #333;
-            color: #f0f8ff;
+            background-color: var(--header-bg); /* Używamy tych samych kolorów co header dla spójności */
+            color: var(--header-text);
             margin-top: auto;
         }
         footer p { margin: 5px 0; }
@@ -119,23 +244,23 @@
 </head>
 <body>
     <header>
-        <h1>Witaj w Świątyni Relaksującej Rozrywki!</h1>
-        <p>Tym razem coś tu nawet działa! Nie dziękuj, po prostu graj.</p>
+        <h1>Przyjemne Gierki 2.0</h1>
+        <p>Więcej gier, więcej "ficzerów", ten sam poziom (nie)produktywności!</p>
+        <button id="themeSwitcher" class="theme-switcher" onclick="toggleTheme()">Zmień Motyw</button>
     </header>
 
     <div class="container">
         <section class="game-section" id="gra-kolko-krzyzyk">
             <h2>Kółko i Krzyżyk</h2>
-            <p>Klasyk. Spróbuj pokonać (nieistniejącego) przeciwnika albo chociaż zagraj sam ze sobą. To też sztuka.</p>
-            <div class="tic-tac-toe-board" id="ticTacToeBoard">
-                </div>
+            <p>Stary dobry klasyk. Czy potrafisz przechytrzyć samego siebie?</p>
+            <div class="tic-tac-toe-board" id="ticTacToeBoard"></div>
             <div class="status-message" id="tttStatus">Kolej gracza X</div>
             <button class="restart-btn" onclick="ttt_restartGame()">Restartuj Grę</button>
         </section>
 
         <section class="game-section" id="gra-zgadnij-liczbe">
             <h2>Zgadnij Liczbę</h2>
-            <p>Pomyślałem liczbę od 1 do 100. Masz 10 prób. Dasz radę? Czy komputer będzie z Ciebie kpił?</p>
+            <p>Komputer myśli o liczbie (1-100). Masz 10 prób. Czy jesteś telepatą?</p>
             <input type="number" id="guessInput" placeholder="Twoja liczba" min="1" max="100">
             <button onclick="gn_checkGuess()">Zgaduj!</button>
             <button class="restart-btn" onclick="gn_startGame()">Nowa Gra</button>
@@ -145,7 +270,7 @@
 
         <section class="game-section" id="gra-klikacz">
             <h2>Super Szybki Klikacz</h2>
-            <p>Masz 10 sekund, by udowodnić, że Twoja myszka jeszcze żyje, a palec nie odpadł. Do dzieła!</p>
+            <p>10 sekund na udowodnienie, że Twój refleks jest szybszy niż poranna kawa.</p>
             <div id="clickerGameArea">
                 <button id="clickerStartButton" onclick="sc_startGame()">Start!</button>
                 <button id="clickerButton" onclick="sc_click()" disabled>Klikaj Tutaj!</button>
@@ -154,174 +279,409 @@
                 <div class="status-message" id="clickerStatus"></div>
             </div>
         </section>
+
+        <section class="game-section" id="gra-memory">
+            <h2>Gra Pamięciowa</h2>
+            <p>Znajdź wszystkie pary. Ćwicz pamięć, bo kluczyki same się nie znajdą.</p>
+            <div class="memory-game-board" id="memoryGameBoard">
+                </div>
+            <div class="status-message" id="mgStatus">Znaleziono par: 0</div>
+            <p>Liczba ruchów: <span id="mgMoves">0</span></p>
+            <button class="restart-btn" onclick="mg_startGame()">Nowa Gra</button>
+        </section>
+
+        <section class="game-section" id="gra-rps">
+            <h2>Kamień, Papier, Nożyce</h2>
+            <p>Zmierz się z bezdusznym komputerem w ostatecznym teście strategii i szczęścia.</p>
+            <div class="rps-choices">
+                <button onclick="rps_play('kamień')">✊ Kamień</button>
+                <button onclick="rps_play('papier')">🖐️ Papier</button>
+                <button onclick="rps_play('nożyce')">✌️ Nożyce</button>
+            </div>
+            <div class="status-message rps-result" id="rpsResult">Wybierz swój ruch!</div>
+            <p>Ty: <span id="rpsPlayerChoice">-</span> vs Komputer: <span id="rpsComputerChoice">-</span></p>
+            <p>Wyniki: Wygrane: <span id="rpsWins">0</span> | Przegrane: <span id="rpsLosses">0</span> | Remisy: <span id="rpsDraws">0</span></p>
+            <button class="restart-btn" onclick="rps_resetScores()">Resetuj Wyniki</button>
+        </section>
+        
+        <section class="game-section" id="gra-hangman">
+            <h2>Wisielec</h2>
+            <p>Odgadnij ukryte słowo, zanim skończą Ci się szanse. Słownictwo na wagę złota!</p>
+            <div id="hangmanWord">_ _ _ _ _ _ _</div>
+            <div class="status-message" id="hangmanStatus">Wybierz literę. Masz <span id="hangmanAttemptsLeft">6</span> szans.</div>
+            <div class="hangman-letters" id="hangmanLettersContainer">
+                </div>
+            <button class="restart-btn" onclick="hm_startGame()">Nowa Gra</button>
+        </section>
+
     </div>
 
     <footer>
-        <p>&copy; 2025 Strefa (działających!) Przyjemnych Gierek. Miłej zabawy... albo frustracji, co kto lubi.</p>
-        <p>Pamiętaj: to wciąż proste gierki. Nie oczekuj Wiedźmina 4 w przeglądarce (jeszcze nie teraz).</p>
+        <p>&copy; 2025 Strefa Przyjemnych Gierek 2.0. Bo czemu nie?</p>
+        <p>Pamiętaj: developer nie ponosi odpowiedzialności za stracony czas. Baw się dobrze (lub nie)!</p>
     </footer>
 
     <script>
-        // --- KÓŁKO I KRZYŻYK (Tic-Tac-Toe) ---
-        const ttt_boardElement = document.getElementById('ticTacToeBoard');
-        const ttt_statusElement = document.getElementById('tttStatus');
-        let ttt_currentPlayer = 'X';
-        let ttt_boardState = Array(9).fill(null);
-        let ttt_gameActive = true;
-        const ttt_winningConditions = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rzędy
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Kolumny
-            [0, 4, 8], [2, 4, 6]             // Przekątne
-        ];
+    // --- LOGIKA PRZEŁĄCZNIKA MOTYWU ---
+    const themeSwitcherButton = document.getElementById('themeSwitcher');
+    const bodyElement = document.body;
 
-        function ttt_createBoard() {
-            ttt_boardElement.innerHTML = ''; // Wyczyść starą planszę
-            for (let i = 0; i < 9; i++) {
-                const cell = document.createElement('div');
-                cell.classList.add('tic-tac-toe-cell');
-                cell.dataset.index = i;
-                cell.addEventListener('click', ttt_handleCellClick);
-                ttt_boardElement.appendChild(cell);
-            }
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            bodyElement.classList.add('dark-mode');
+            themeSwitcherButton.textContent = 'Jasny Motyw ☀️';
+        } else {
+            bodyElement.classList.remove('dark-mode');
+            themeSwitcherButton.textContent = 'Ciemny Motyw 🌙';
         }
+    }
 
-        function ttt_handleCellClick(event) {
-            const clickedCellIndex = parseInt(event.target.dataset.index);
-            if (ttt_boardState[clickedCellIndex] !== null || !ttt_gameActive) {
-                return;
-            }
-            ttt_boardState[clickedCellIndex] = ttt_currentPlayer;
-            event.target.textContent = ttt_currentPlayer;
-            event.target.classList.add(ttt_currentPlayer);
-            
-            if (ttt_checkWin()) {
-                ttt_statusElement.textContent = `Wygrywa ${ttt_currentPlayer}! Gratulacje, o wielki strategu!`;
-                ttt_gameActive = false;
-                return;
-            }
-            if (ttt_boardState.every(cell => cell !== null)) {
-                ttt_statusElement.textContent = "Remis! Spróbujcie jeszcze raz, może tym razem ktoś wygra.";
-                ttt_gameActive = false;
-                return;
-            }
-            ttt_currentPlayer = ttt_currentPlayer === 'X' ? 'O' : 'X';
-            ttt_statusElement.textContent = `Kolej gracza ${ttt_currentPlayer}`;
-        }
+    function toggleTheme() {
+        let currentTheme = bodyElement.classList.contains('dark-mode') ? 'dark' : 'light';
+        let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+    }
 
-        function ttt_checkWin() {
-            return ttt_winningConditions.some(condition => {
-                return condition.every(index => {
-                    return ttt_boardState[index] === ttt_currentPlayer;
-                });
-            });
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'light'; // Domyślnie jasny
+        applyTheme(savedTheme);
+    }
+    
+    // --- KÓŁKO I KRZYŻYK (Tic-Tac-Toe) - logika bez zmian ---
+    const ttt_boardElement = document.getElementById('ticTacToeBoard');
+    const ttt_statusElement = document.getElementById('tttStatus');
+    let ttt_currentPlayer = 'X';
+    let ttt_boardState = Array(9).fill(null);
+    let ttt_gameActive = true;
+    const ttt_winningConditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]
+    ];
+    function ttt_createBoard() {
+        ttt_boardElement.innerHTML = ''; 
+        for (let i = 0; i < 9; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('tic-tac-toe-cell');
+            cell.dataset.index = i;
+            cell.addEventListener('click', ttt_handleCellClick);
+            ttt_boardElement.appendChild(cell);
         }
+    }
+    function ttt_handleCellClick(event) {
+        const clickedCellIndex = parseInt(event.target.dataset.index);
+        if (ttt_boardState[clickedCellIndex] !== null || !ttt_gameActive) return;
+        ttt_boardState[clickedCellIndex] = ttt_currentPlayer;
+        event.target.textContent = ttt_currentPlayer;
+        event.target.classList.add(ttt_currentPlayer);
+        if (ttt_checkWin()) {
+            ttt_statusElement.textContent = `Wygrywa ${ttt_currentPlayer}! Jesteś mistrzem strategii!`;
+            ttt_gameActive = false; return;
+        }
+        if (ttt_boardState.every(cell => cell !== null)) {
+            ttt_statusElement.textContent = "Remis! Nikt nie wygrywa, nikt nie płacze.";
+            ttt_gameActive = false; return;
+        }
+        ttt_currentPlayer = ttt_currentPlayer === 'X' ? 'O' : 'X';
+        ttt_statusElement.textContent = `Kolej gracza ${ttt_currentPlayer}`;
+    }
+    function ttt_checkWin() {
+        return ttt_winningConditions.some(condition => condition.every(index => ttt_boardState[index] === ttt_currentPlayer));
+    }
+    function ttt_restartGame() {
+        ttt_currentPlayer = 'X';
+        ttt_boardState = Array(9).fill(null);
+        ttt_gameActive = true;
+        ttt_statusElement.textContent = `Kolej gracza ${ttt_currentPlayer}`;
+        document.querySelectorAll('#ticTacToeBoard .tic-tac-toe-cell').forEach(cell => {
+            cell.textContent = '';
+            cell.classList.remove('X', 'O');
+        });
+    }
 
-        function ttt_restartGame() {
-            ttt_currentPlayer = 'X';
-            ttt_boardState = Array(9).fill(null);
-            ttt_gameActive = true;
-            ttt_statusElement.textContent = `Kolej gracza ${ttt_currentPlayer}`;
-            document.querySelectorAll('.tic-tac-toe-cell').forEach(cell => {
-                cell.textContent = '';
-                cell.classList.remove('X', 'O');
-            });
-            // Jeśli plansza nie była tworzona dynamicznie za każdym restartem, trzeba ją stworzyć na początku
-            // ttt_createBoard(); // Odkomentuj, jeśli tworzysz planszę dynamicznie
+    // --- ZGADNIJ LICZBĘ (Guess the Number) - logika bez zmian ---
+    const gn_guessInputElement = document.getElementById('guessInput');
+    const gn_messageElement = document.getElementById('gnMessage');
+    const gn_attemptsLeftElement = document.getElementById('gnAttemptsLeft');
+    let gn_secretNumber; let gn_attempts; const gn_maxAttempts = 10;
+    function gn_startGame() {
+        gn_secretNumber = Math.floor(Math.random() * 100) + 1;
+        gn_attempts = gn_maxAttempts;
+        gn_messageElement.textContent = "Myślę o liczbie (1-100). Zgadniesz?";
+        gn_attemptsLeftElement.textContent = gn_attempts;
+        gn_guessInputElement.value = ''; gn_guessInputElement.disabled = false;
+        // console.log(`(Szepczę Ci sekret: ${gn_secretNumber})`);
+    }
+    function gn_checkGuess() {
+        const userGuess = parseInt(gn_guessInputElement.value);
+        if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+            gn_messageElement.textContent = "Podaj liczbę od 1 do 100, a nie jakieś fanaberie!"; return;
         }
+        gn_attempts--; gn_attemptsLeftElement.textContent = gn_attempts;
+        if (userGuess === gn_secretNumber) {
+            gn_messageElement.textContent = `Bingo! ${gn_secretNumber} to ta liczba! Albo jesteś dobry, albo masz farta.`;
+            gn_guessInputElement.disabled = true;
+        } else if (gn_attempts === 0) {
+            gn_messageElement.textContent = `Koniec prób! Myślałem o ${gn_secretNumber}. Nie martw się, to tylko gra.`;
+            gn_guessInputElement.disabled = true;
+        } else if (userGuess < gn_secretNumber) {
+            gn_messageElement.textContent = "Za mało! Strzelaj wyżej!";
+        } else {
+            gn_messageElement.textContent = "Za dużo! Trochę niżej...";
+        }
+        gn_guessInputElement.value = ''; gn_guessInputElement.focus();
+    }
+
+    // --- SUPER SZYBKI KLIKACZ (Super Clicker) - logika bez zmian ---
+    const sc_startButton = document.getElementById('clickerStartButton');
+    const sc_clickButton = document.getElementById('clickerButton');
+    const sc_timeLeftDisplay = document.getElementById('clickerTimeLeft');
+    const sc_scoreDisplay = document.getElementById('clickerScore');
+    const sc_statusDisplay = document.getElementById('clickerStatus');
+    let sc_score = 0; let sc_timeLeft = 10; let sc_timerInterval = null; let sc_gameActive = false;
+    function sc_startGame() {
+        sc_score = 0; sc_timeLeft = 10; sc_gameActive = true;
+        sc_scoreDisplay.textContent = sc_score; sc_timeLeftDisplay.textContent = sc_timeLeft;
+        sc_statusDisplay.textContent = "Klikaj jak szalony!";
+        sc_startButton.disabled = true; sc_clickButton.disabled = false;
+        clearInterval(sc_timerInterval);
+        sc_timerInterval = setInterval(() => {
+            sc_timeLeft--; sc_timeLeftDisplay.textContent = sc_timeLeft;
+            if (sc_timeLeft <= 0) {
+                clearInterval(sc_timerInterval); sc_gameActive = false;
+                sc_clickButton.disabled = true; sc_startButton.disabled = false;
+                sc_statusDisplay.textContent = `Koniec! Wynik: ${sc_score}. Twój kciuk zasługuje na medal.`;
+            }
+        }, 1000);
+    }
+    function sc_click() { if (sc_gameActive) { sc_score++; sc_scoreDisplay.textContent = sc_score; }}
+
+    // --- NOWA GRA: GRA PAMIĘCIOWA (Memory Game) ---
+    const mg_boardElement = document.getElementById('memoryGameBoard');
+    const mg_statusElement = document.getElementById('mgStatus');
+    const mg_movesElement = document.getElementById('mgMoves');
+    const mg_cardSymbols = ['🍎', '🍌', '🍒', '🍓', '🥝', '🍍', '🍉', '🍇']; // 8 symboli = 16 kart
+    let mg_cards = [];
+    let mg_flippedCards = [];
+    let mg_matchedPairs = 0;
+    let mg_moves = 0;
+    let mg_lockBoard = false;
+
+    function mg_createCard(symbol) {
+        const card = document.createElement('div');
+        card.classList.add('memory-card');
+        card.dataset.symbol = symbol;
+        // Tył karty (widoczny na początku)
+        const cardFront = document.createElement('div');
+        cardFront.classList.add('card-face', 'card-front');
+        // cardFront.textContent = '?'; // Opcjonalnie, jeśli chcesz coś na "zakrytej" karcie
         
-        // Inicjalizacja Kółka i Krzyżyk
-        ttt_createBoard(); // Stwórz planszę przy załadowaniu strony
-
-        // --- ZGADNIJ LICZBĘ (Guess the Number) ---
-        const gn_guessInputElement = document.getElementById('guessInput');
-        const gn_messageElement = document.getElementById('gnMessage');
-        const gn_attemptsLeftElement = document.getElementById('gnAttemptsLeft');
-        let gn_secretNumber;
-        let gn_attempts;
-        const gn_maxAttempts = 10;
-
-        function gn_startGame() {
-            gn_secretNumber = Math.floor(Math.random() * 100) + 1;
-            gn_attempts = gn_maxAttempts;
-            gn_messageElement.textContent = "Nowa gra! Zgadnij liczbę od 1 do 100.";
-            gn_attemptsLeftElement.textContent = gn_attempts;
-            gn_guessInputElement.value = '';
-            gn_guessInputElement.disabled = false;
-            // console.log(`Psst, sekretna liczba to ${gn_secretNumber}. Nie mów nikomu!`); // Dla ułatwienia testów
-        }
-
-        function gn_checkGuess() {
-            const userGuess = parseInt(gn_guessInputElement.value);
-            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
-                gn_messageElement.textContent = "Wprowadź poprawną liczbę od 1 do 100, cwaniaku.";
-                return;
-            }
-
-            gn_attempts--;
-            gn_attemptsLeftElement.textContent = gn_attempts;
-
-            if (userGuess === gn_secretNumber) {
-                gn_messageElement.textContent = `Brawo! Zgadłeś liczbę ${gn_secretNumber}! Jesteś geniuszem albo masz farta.`;
-                gn_guessInputElement.disabled = true;
-            } else if (gn_attempts === 0) {
-                gn_messageElement.textContent = `Koniec prób! Prawidłowa liczba to ${gn_secretNumber}. Może następnym razem?`;
-                gn_guessInputElement.disabled = true;
-            } else if (userGuess < gn_secretNumber) {
-                gn_messageElement.textContent = "Za mało! Celuj wyżej, strzelcu.";
-            } else {
-                gn_messageElement.textContent = "Za dużo! Zejdź trochę na ziemię.";
-            }
-            gn_guessInputElement.value = ''; // Wyczyść pole po próbie
-            gn_guessInputElement.focus(); // Ustaw fokus z powrotem na polu
-        }
-        // Inicjalizacja Zgadnij Liczbę
-        gn_startGame();
-
-        // --- SUPER SZYBKI KLIKACZ (Super Clicker) ---
-        const sc_startButton = document.getElementById('clickerStartButton');
-        const sc_clickButton = document.getElementById('clickerButton');
-        const sc_timeLeftDisplay = document.getElementById('clickerTimeLeft');
-        const sc_scoreDisplay = document.getElementById('clickerScore');
-        const sc_statusDisplay = document.getElementById('clickerStatus');
+        // Przód karty (symbol, widoczny po odwróceniu)
+        const cardBack = document.createElement('div');
+        cardBack.classList.add('card-face', 'card-back');
+        cardBack.textContent = symbol;
         
-        let sc_score = 0;
-        let sc_timeLeft = 10;
-        let sc_timerInterval = null;
-        let sc_gameActive = false;
+        card.appendChild(cardFront);
+        card.appendChild(cardBack);
 
-        function sc_startGame() {
-            sc_score = 0;
-            sc_timeLeft = 10;
-            sc_gameActive = true;
-            
-            sc_scoreDisplay.textContent = sc_score;
-            sc_timeLeftDisplay.textContent = sc_timeLeft;
-            sc_statusDisplay.textContent = "Klikaj!";
-            
-            sc_startButton.disabled = true;
-            sc_clickButton.disabled = false;
-            
-            clearInterval(sc_timerInterval); // Wyczyść poprzedni interwał, jeśli istnieje
-            sc_timerInterval = setInterval(() => {
-                sc_timeLeft--;
-                sc_timeLeftDisplay.textContent = sc_timeLeft;
-                if (sc_timeLeft <= 0) {
-                    clearInterval(sc_timerInterval);
-                    sc_gameActive = false;
-                    sc_clickButton.disabled = true;
-                    sc_startButton.disabled = false;
-                    sc_statusDisplay.textContent = `Koniec czasu! Twój wynik: ${sc_score}. Całkiem nieźle... albo słabo.`;
-                }
+        card.addEventListener('click', mg_flipCard);
+        return card;
+    }
+
+    function mg_startGame() {
+        mg_boardElement.innerHTML = '';
+        mg_cards = [];
+        mg_flippedCards = [];
+        mg_matchedPairs = 0;
+        mg_moves = 0;
+        mg_lockBoard = false;
+        mg_statusElement.textContent = `Znaleziono par: ${mg_matchedPairs}`;
+        mg_movesElement.textContent = mg_moves;
+
+        const gameSymbols = [...mg_cardSymbols, ...mg_cardSymbols]; // Podwój symbole dla par
+        gameSymbols.sort(() => 0.5 - Math.random()); // Potasuj
+
+        gameSymbols.forEach(symbol => {
+            const cardElement = mg_createCard(symbol);
+            mg_cards.push(cardElement);
+            mg_boardElement.appendChild(cardElement);
+        });
+    }
+
+    function mg_flipCard() {
+        if (mg_lockBoard) return;
+        if (this === mg_flippedCards[0]) return; // Nie można kliknąć tej samej karty dwa razy
+
+        this.classList.add('flipped');
+        mg_flippedCards.push(this);
+
+        if (mg_flippedCards.length === 2) {
+            mg_moves++;
+            mg_movesElement.textContent = mg_moves;
+            mg_lockBoard = true; // Zablokuj planszę na czas sprawdzania
+            mg_checkForMatch();
+        }
+    }
+
+    function mg_checkForMatch() {
+        const [card1, card2] = mg_flippedCards;
+        if (card1.dataset.symbol === card2.dataset.symbol) {
+            mg_matchedPairs++;
+            mg_statusElement.textContent = `Znaleziono par: ${mg_matchedPairs}`;
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            card1.removeEventListener('click', mg_flipCard); // Usuń listener dla dopasowanych
+            card2.removeEventListener('click', mg_flipCard);
+            mg_resetFlippedCards();
+            if (mg_matchedPairs === mg_cardSymbols.length) {
+                mg_statusElement.textContent = `Gratulacje! Wszystkie pary znalezione w ${mg_moves} ruchach! Jesteś Mózgiem!`;
+            }
+        } else {
+            setTimeout(() => { // Daj chwilę na zobaczenie drugiej karty
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                mg_resetFlippedCards();
             }, 1000);
         }
+    }
+    
+    function mg_resetFlippedCards() {
+        mg_flippedCards = [];
+        mg_lockBoard = false;
+    }
 
-        function sc_click() {
-            if (sc_gameActive) {
-                sc_score++;
-                sc_scoreDisplay.textContent = sc_score;
-            }
+    // --- NOWA GRA: KAMIEŃ, PAPIER, NOŻYCE (Rock, Paper, Scissors) ---
+    const rps_resultElement = document.getElementById('rpsResult');
+    const rps_playerChoiceElement = document.getElementById('rpsPlayerChoice');
+    const rps_computerChoiceElement = document.getElementById('rpsComputerChoice');
+    const rps_winsElement = document.getElementById('rpsWins');
+    const rps_lossesElement = document.getElementById('rpsLosses');
+    const rps_drawsElement = document.getElementById('rpsDraws');
+    const rps_choices = ['kamień', 'papier', 'nożyce'];
+    const rps_emojiMap = { 'kamień': '✊', 'papier': '🖐️', 'nożyce': '✌️' };
+    let rps_scores = { wins: 0, losses: 0, draws: 0 };
+
+    function rps_play(playerChoice) {
+        const computerChoice = rps_choices[Math.floor(Math.random() * rps_choices.length)];
+        let resultText = '';
+
+        rps_playerChoiceElement.textContent = rps_emojiMap[playerChoice];
+        rps_computerChoiceElement.textContent = rps_emojiMap[computerChoice];
+
+        if (playerChoice === computerChoice) {
+            resultText = "Remis! Wielkie umysły myślą podobnie (albo losowo).";
+            rps_scores.draws++;
+        } else if (
+            (playerChoice === 'kamień' && computerChoice === 'nożyce') ||
+            (playerChoice === 'papier' && computerChoice === 'kamień') ||
+            (playerChoice === 'nożyce' && computerChoice === 'papier')
+        ) {
+            resultText = `Wygrałeś! ${playerChoice} bije ${computerChoice}. Jesteś debeściak!`;
+            rps_scores.wins++;
+        } else {
+            resultText = `Przegrałeś! ${computerChoice} bije ${playerChoice}. Komputer górą (tym razem).`;
+            rps_scores.losses++;
         }
-        // Inicjalizacja Klikacza - gotowy do startu przez użytkownika
+        rps_resultElement.textContent = resultText;
+        rps_updateScores();
+    }
+    function rps_updateScores() {
+        rps_winsElement.textContent = rps_scores.wins;
+        rps_lossesElement.textContent = rps_scores.losses;
+        rps_drawsElement.textContent = rps_scores.draws;
+    }
+    function rps_resetScores() {
+        rps_scores = { wins: 0, losses: 0, draws: 0 };
+        rps_updateScores();
+        rps_resultElement.textContent = "Wyniki zresetowane. Nowa szansa na chwałę!";
+        rps_playerChoiceElement.textContent = '-';
+        rps_computerChoiceElement.textContent = '-';
+    }
+    
+    // --- NOWA GRA: WISIELEC (Hangman) ---
+    const hm_wordDisplayElement = document.getElementById('hangmanWord');
+    const hm_statusElement = document.getElementById('hangmanStatus');
+    const hm_attemptsLeftElement = document.getElementById('hangmanAttemptsLeft'); // Wewnątrz hm_statusElement
+    const hm_lettersContainer = document.getElementById('hangmanLettersContainer');
+    const hm_wordList = ["KODEINA", "MOTYW", "HTML", "SKRYPT", "PORTAL", "WERSJA", "KLIKACZ", "PROGRAM", "SZALEJ", "IRONIA"];
+    let hm_chosenWord = '';
+    let hm_guessedLetters = [];
+    let hm_attemptsLeft = 6;
+    const hm_alphabet = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPQRSŚTUVWXYZŹŻ'.split('');
+
+    function hm_startGame() {
+        hm_chosenWord = hm_wordList[Math.floor(Math.random() * hm_wordList.length)].toUpperCase();
+        hm_guessedLetters = [];
+        hm_attemptsLeft = 6;
+        hm_updateWordDisplay();
+        hm_updateStatus();
+        hm_createLetterButtons();
+    }
+
+    function hm_updateWordDisplay() {
+        hm_wordDisplayElement.textContent = hm_chosenWord
+            .split('')
+            .map(letter => (hm_guessedLetters.includes(letter) ? letter : '_'))
+            .join(' ');
+    }
+    
+    function hm_updateStatus() {
+        hm_statusElement.innerHTML = `Wybierz literę. Masz <span id="hangmanAttemptsLeft">${hm_attemptsLeft}</span> szans.`;
+         if (hm_attemptsLeft <= 0) {
+            hm_statusElement.textContent = `Koniec gry! Słowo to: ${hm_chosenWord}. Czasem się przegrywa, żeby potem wygrać (albo nie).`;
+            hm_disableLetterButtons();
+        } else if (!hm_wordDisplayElement.textContent.includes('_')) {
+            hm_statusElement.textContent = `Gratulacje! Odgadłeś słowo: ${hm_chosenWord}! Jesteś słownym detektywem!`;
+            hm_disableLetterButtons();
+        }
+    }
+
+    function hm_createLetterButtons() {
+        hm_lettersContainer.innerHTML = '';
+        hm_alphabet.forEach(letter => {
+            const button = document.createElement('button');
+            button.textContent = letter;
+            button.addEventListener('click', () => hm_handleGuess(letter));
+            hm_lettersContainer.appendChild(button);
+        });
+    }
+    
+    function hm_disableLetterButtons() {
+        hm_lettersContainer.querySelectorAll('button').forEach(btn => btn.disabled = true);
+    }
+
+    function hm_handleGuess(letter) {
+        if (hm_guessedLetters.includes(letter) || hm_attemptsLeft <= 0 || !hm_wordDisplayElement.textContent.includes('_')) {
+            return; // Już zgadnięta lub gra zakończona
+        }
+        
+        const button = Array.from(hm_lettersContainer.querySelectorAll('button')).find(btn => btn.textContent === letter);
+        if (button) button.disabled = true;
+
+        hm_guessedLetters.push(letter);
+
+        if (hm_chosenWord.includes(letter)) {
+            // Dobra litera
+        } else {
+            hm_attemptsLeft--;
+        }
+        hm_updateWordDisplay();
+        hm_updateStatus();
+    }
+
+
+    // --- INICJALIZACJA PRZY ZAŁADOWANIU STRONY ---
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTheme(); // Załaduj zapisany motyw
+        
+        // Inicjalizacja gier
+        ttt_createBoard();
+        gn_startGame();
+        // Klikacz jest gotowy po kliknięciu start
+        mg_startGame();
+        rps_updateScores(); // Ustaw początkowe wyniki dla KPN
+        hm_startGame();
+    });
+
     </script>
 </body>
 </html>
